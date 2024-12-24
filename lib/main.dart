@@ -2,10 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xupstore/firebase_options.dart';
+import 'package:xupstore/provider/DownloadPP/search_game_provider.dart';
 import 'package:xupstore/views/Auth/auth_gate.dart';
 import 'package:xupstore/views/Developer/dev_payment.dart';
 import 'package:xupstore/views/Developer/dev_profile.dart';
 import 'package:xupstore/views/Developer/payment_method.dart';
+import 'package:xupstore/views/HelpCenter/help_center_screen.dart';
 import 'package:xupstore/views/dashboard.dart';
 import 'package:xupstore/views/downloadpage.dart';
 import 'package:xupstore/views/Auth/login.dart';
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RatingProvider()),
         ChangeNotifierProvider(
           create: (context) => DownloadProvider(),
-        )
+        ),
+        ChangeNotifierProvider(create: (_) => GameProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

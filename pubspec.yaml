@@ -57,6 +57,7 @@ dependencies:
   package_info_plus: ^8.1.0
   avatar_glow: ^3.0.1
   provider: ^6.1.2
+  google_sign_in: ^6.2.2
 
 dev_dependencies:
   flutter_test:

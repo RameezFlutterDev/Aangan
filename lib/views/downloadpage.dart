@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:android_intent_plus/flag.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,13 +15,15 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:xupstore/provider/DownloadPP/download_button_provider.dart';
 import 'package:xupstore/services/firestore_downloadpage_services.dart';
+import 'package:xupstore/services/firestore_favourite_games_services.dart';
 
 import '../provider/DownloadPP/game_rating_provider.dart';
 
 class DownloadPage extends StatefulWidget {
-  DownloadPage({super.key, required this.game});
+  DownloadPage({super.key, required this.game, required this.userid});
 
   final Map<String, dynamic> game;
+  final String userid;
 
   @override
   State<DownloadPage> createState() => _DownloadPageState();
@@ -28,6 +32,8 @@ class DownloadPage extends StatefulWidget {
 class _DownloadPageState extends State<DownloadPage> {
   FirestoreDownloadpageServices firestoreDownloadpageServices =
       FirestoreDownloadpageServices();
+  FirestoreFavouriteGamesServices firestoreFavouriteGamesServices =
+      FirestoreFavouriteGamesServices();
   bool isFavorite = false;
   bool isDownloading = false;
   double downloadProgress = 0.0;
@@ -36,8 +42,54 @@ class _DownloadPageState extends State<DownloadPage> {
 
   Future<void> downloadAndInstallAPK(
       BuildContext context, DownloadProvider downloadProvider) async {
-    // Request storage permission
-    PermissionStatus storageStatus = await Permission.storage.request();
+    // Check and request permission for Install from Unknown Sources
+    bool canInstallUnknownSources =
+        await Permission.requestInstallPackages.isGranted;
+
+    if (!canInstallUnknownSources) {
+      // Prompt the user to enable "Install from Unknown Sources"
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Please enable "Install from Unknown Sources" to proceed with installation.'),
+          action: SnackBarAction(
+            label: 'Enable',
+            onPressed: () async {
+              await openUnknownSourcesSettings();
+
+              // Recheck the permission after returning
+              if (await Permission.requestInstallPackages.isGranted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content:
+                        Text('Permission granted. You can now install apps.'),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Permission not granted.')),
+                );
+              }
+            },
+          ),
+        ),
+      );
+      return; // Exit if the permission is not granted
+    }
+
+    // Handle storage permissions
+    PermissionStatus storageStatus;
+    if (Platform.isAndroid) {
+      // Handle storage permissions for Android 11+ using manageExternalStorage
+      if (await Permission.manageExternalStorage.isGranted) {
+        storageStatus = PermissionStatus.granted;
+      } else {
+        storageStatus = await Permission.manageExternalStorage.request();
+      }
+    } else {
+      // For non-Android platforms, fallback to storage permission
+      storageStatus = await Permission.storage.request();
+    }
 
     if (storageStatus.isGranted) {
       final directory = await getTemporaryDirectory();
@@ -60,28 +112,21 @@ class _DownloadPageState extends State<DownloadPage> {
 
         downloadProvider.finishDownloading();
 
-        // Check if Install from Unknown Sources is enabled
-        bool canInstallUnknownSources =
-            await Permission.requestInstallPackages.isGranted;
-        if (!canInstallUnknownSources) {
+        // Directly open the APK file for installation
+        final result = await OpenFile.open(filePath);
+        if (result.type != ResultType.done) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                  'Please enable "Install from Unknown Sources" to continue.'),
-              action: SnackBarAction(
-                label: 'Enable',
-                onPressed: () => openUnknownSourcesSettings(),
-              ),
+              content: Text('Unable to open the APK file for installation.'),
             ),
           );
-        } else {
-          OpenFile.open(filePath);
         }
       } catch (e) {
         downloadProvider.finishDownloading();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text('Failed to download the APK. Please try again.')),
+            content: Text('Failed to download the APK. Please try again.'),
+          ),
         );
       }
     } else if (storageStatus.isPermanentlyDenied) {
@@ -95,13 +140,13 @@ class _DownloadPageState extends State<DownloadPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content:
-                Text('Storage permission is required to download the APK.')),
+          content: Text('Storage permission is required to download the APK.'),
+        ),
       );
     }
   }
 
-   Future<void> openUnknownSourcesSettings() async {
+  Future<void> openUnknownSourcesSettings() async {
     if (Platform.isAndroid) {
       final intent = AndroidIntent(
         action: 'android.settings.MANAGE_UNKNOWN_APP_SOURCES',
@@ -111,7 +156,6 @@ class _DownloadPageState extends State<DownloadPage> {
       await intent.launch();
     }
   }
-
 
   @override
   void initState() {
@@ -199,15 +243,56 @@ class _DownloadPageState extends State<DownloadPage> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isFavorite = !isFavorite;
-                        });
+                    // IconButton(
+                    //   icon: Icon(
+                    //     isFavorite ? Icons.favorite : Icons.favorite_border,
+                    //     color: isFavorite ? Colors.red : Colors.grey,
+                    //   ),
+                    //   onPressed: () {
+                    //     setState(() {
+                    //       isFavorite = !isFavorite;
+                    //     });
+                    //   },
+                    // ),
+                    // FavoriteButton(FirebaseAuth.instance.currentUser!.uid,
+                    //     widget.game['gameid'])
+
+                    StreamBuilder<DocumentSnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(widget.userid)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        }
+
+                        final docData =
+                            snapshot.data?.data() as Map<String, dynamic>? ??
+                                {};
+                        final favorites =
+                            List<String>.from(docData['favorites'] ?? []);
+                        final isFavorite =
+                            favorites.contains(widget.game['gameid']);
+
+                        String userId = FirebaseAuth.instance.currentUser!.uid;
+                        String gameId = widget.game['gameid'];
+
+                        return IconButton(
+                          icon: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                          ),
+                          color: isFavorite ? Colors.red : Colors.grey,
+                          onPressed: () {
+                            if (isFavorite) {
+                              firestoreFavouriteGamesServices.removeFavorite(
+                                  userId, gameId);
+                            } else {
+                              firestoreFavouriteGamesServices.addFavorite(
+                                  userId, gameId);
+                            }
+                          },
+                        );
                       },
                     ),
                   ],
@@ -530,3 +615,176 @@ class _DownloadPageState extends State<DownloadPage> {
     );
   }
 }
+
+
+
+
+// Future<void> downloadAndInstallAPK(
+//       BuildContext context, DownloadProvider downloadProvider) async {
+//     // Request storage permission
+//     PermissionStatus storageStatus = await Permission.storage.request();
+
+//     if (storageStatus.isGranted) {
+//       final directory = await getTemporaryDirectory();
+//       final filePath = '${directory.path}/${widget.game['title']}.apk';
+
+//       // Start downloading
+//       downloadProvider.startDownloading();
+
+//       try {
+//         await Dio().download(
+//           widget.game['apkFileUrl'],
+//           filePath,
+//           onReceiveProgress: (received, total) {
+//             if (total != -1) {
+//               double progress = received / total;
+//               downloadProvider.updateProgress(progress);
+//             }
+//           },
+//         );
+
+//         downloadProvider.finishDownloading();
+
+//         // Check if Install from Unknown Sources is enabled
+//         bool canInstallUnknownSources =
+//             await Permission.requestInstallPackages.isGranted;
+//         if (!canInstallUnknownSources) {
+//           ScaffoldMessenger.of(context).showSnackBar(
+//             SnackBar(
+//               content: Text(
+//                   'Please enable "Install from Unknown Sources" to continue.'),
+//               action: SnackBarAction(
+//                 label: 'Enable',
+//                 onPressed: () => openUnknownSourcesSettings(),
+//               ),
+//             ),
+//           );
+//         } else {
+//           OpenFile.open(filePath);
+//         }
+//       } catch (e) {
+//         downloadProvider.finishDownloading();
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(
+//               content: Text('Failed to download the APK. Please try again.')),
+//         );
+//       }
+//     } else if (storageStatus.isPermanentlyDenied) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//           content: Text(
+//               'Storage permission is permanently denied. Please enable it in settings.'),
+//         ),
+//       );
+//       openAppSettings();
+//     } else {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//             content:
+//                 Text('Storage permission is required to download the APK.')),
+//       );
+//     }
+//   }
+
+//   Future<void> openUnknownSourcesSettings() async {
+//     if (Platform.isAndroid) {
+//       final intent = AndroidIntent(
+//         action: 'android.settings.MANAGE_UNKNOWN_APP_SOURCES',
+//         data: 'package:${(await PackageInfo.fromPlatform()).packageName}',
+//         flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
+//       );
+//       await intent.launch();
+//     }
+//   }
+
+
+
+
+
+
+// Future<void> downloadAndInstallAPK(
+//       BuildContext context, DownloadProvider downloadProvider) async {
+//     // Check and request permission for Install from Unknown Sources
+//     bool canInstallUnknownSources =
+//         await Permission.requestInstallPackages.isGranted;
+
+//     if (!canInstallUnknownSources) {
+//       // Prompt the user to enable "Install from Unknown Sources"
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//           content: Text(
+//               'Please enable "Install from Unknown Sources" to proceed with installation.'),
+//           action: SnackBarAction(
+//             label: 'Enable',
+//             onPressed: () async {
+//               await openUnknownSourcesSettings();
+
+//               // Recheck the permission after returning
+//               if (await Permission.requestInstallPackages.isGranted) {
+//                 ScaffoldMessenger.of(context).showSnackBar(
+//                   SnackBar(
+//                     content:
+//                         Text('Permission granted. You can now install apps.'),
+//                   ),
+//                 );
+//               } else {
+//                 ScaffoldMessenger.of(context).showSnackBar(
+//                   SnackBar(content: Text('Permission not granted.')),
+//                 );
+//               }
+//             },
+//           ),
+//         ),
+//       );
+//       return; // Exit if the permission is not granted
+//     }
+
+//     // Request storage permission
+//     PermissionStatus storageStatus = await Permission.storage.request();
+
+//     if (storageStatus.isGranted) {
+//       final directory = await getTemporaryDirectory();
+//       final filePath = '${directory.path}/${widget.game['title']}.apk';
+
+//       // Start downloading
+//       downloadProvider.startDownloading();
+
+//       try {
+//         await Dio().download(
+//           widget.game['apkFileUrl'],
+//           filePath,
+//           onReceiveProgress: (received, total) {
+//             if (total != -1) {
+//               double progress = received / total;
+//               downloadProvider.updateProgress(progress);
+//             }
+//           },
+//         );
+
+//         downloadProvider.finishDownloading();
+
+//         // Directly open installation after download
+//         OpenFile.open(filePath);
+//       } catch (e) {
+//         downloadProvider.finishDownloading();
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(
+//               content: Text('Failed to download the APK. Please try again.')),
+//         );
+//       }
+//     } else if (storageStatus.isPermanentlyDenied) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//           content: Text(
+//               'Storage permission is permanently denied. Please enable it in settings.'),
+//         ),
+//       );
+//       openAppSettings();
+//     } else {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//             content:
+//                 Text('Storage permission is required to download the APK.')),
+//       );
+//     }
+//   }

@@ -28,11 +28,15 @@ class _UploadgameState extends State<Uploadgame> {
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+
+  bool _isPaid = false; // Indicates if the game is free or paid
 
   @override
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
+    _priceController.dispose();
     super.dispose();
   }
 
@@ -80,14 +84,20 @@ class _UploadgameState extends State<Uploadgame> {
     }
   }
 
-  Future<void> _uploadGameDetails(
-      String title, String description, BuildContext context) async {
+  Future<void> _uploadGameDetails(String title, String description) async {
     if (_apkFile == null) {
-      _showAlertDialog(context, "Please select an APK file.");
+      if (mounted) {
+        _showAlertDialog(context, "Please select an APK file.");
+      }
       return;
     }
 
-    String? apkUrl; // Declare apkUrl outside the try block
+    if (_isPaid && _priceController.text.trim().isEmpty) {
+      _showAlertDialog(context, "Please enter the price for a paid game.");
+      return;
+    }
+
+    String? apkUrl;
 
     try {
       final User? user = _auth.currentUser;
@@ -111,19 +121,21 @@ class _UploadgameState extends State<Uploadgame> {
 
       uploadTask.snapshotEvents.listen(
         (TaskSnapshot snapshot) {
-          setState(() {
-            _uploadProgress = snapshot.bytesTransferred / snapshot.totalBytes;
-          });
+          if (mounted) {
+            setState(() {
+              _uploadProgress = snapshot.bytesTransferred / snapshot.totalBytes;
+            });
+          }
         },
         onError: (error) {
-          print("Error: $error");
-          _showAlertDialog(context, "Error during upload: ${error.message}");
+          if (mounted) {
+            _showAlertDialog(context, "Error during upload: ${error.message}");
+          }
         },
       );
 
       await uploadTask;
-      apkUrl =
-          await apkRef.getDownloadURL(); // Assign apkUrl if upload succeeds
+      apkUrl = await apkRef.getDownloadURL();
 
       List<String> imageUrls = await _uploadImages(user.uid, gameId);
 
@@ -135,16 +147,30 @@ class _UploadgameState extends State<Uploadgame> {
         'apkFileUrl': apkUrl,
         'gameImagesList': imageUrls,
         'storagePath': storagePath,
+        'isPaid': _isPaid,
+        'price': _isPaid ? double.parse(_priceController.text.trim()) : 0.0,
       });
 
-      _showAlertDialog(context, "Game uploaded successfully!");
+      if (mounted) {
+        _showAlertDialog(context, "Game uploaded successfully!");
+
+        Future.delayed(Duration(seconds: 2), () {
+          if (mounted) {
+            Navigator.pop(context);
+          }
+        });
+      }
     } catch (error) {
-      _showAlertDialog(context, "Upload failed: $error");
+      if (mounted) {
+        _showAlertDialog(context, "Upload failed: $error");
+      }
     } finally {
-      setState(() {
-        _isUploading = false;
-        _uploadProgress = 0.0;
-      });
+      if (mounted) {
+        setState(() {
+          _isUploading = false;
+          _uploadProgress = 0.0;
+        });
+      }
     }
   }
 
@@ -202,6 +228,27 @@ class _UploadgameState extends State<Uploadgame> {
                     _buildFilePickerRow(
                         "APK File", Icons.insert_drive_file, _pickApkFile),
                     SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Is this game paid?",
+                          style: GoogleFonts.poppins(
+                              fontSize: 18, color: Colors.white),
+                        ),
+                        Switch(
+                          value: _isPaid,
+                          onChanged: (value) {
+                            setState(() {
+                              _isPaid = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    if (_isPaid)
+                      _buildTextField("Enter price", _priceController),
+                    SizedBox(height: 16),
                     Text(
                       'Upload images',
                       style: GoogleFonts.poppins(
@@ -241,7 +288,7 @@ class _UploadgameState extends State<Uploadgame> {
                             _showAlertDialog(
                                 context, "Please upload an APK file.");
                           } else {
-                            _uploadGameDetails(title, description, context);
+                            _uploadGameDetails(title, description);
                           }
                         },
                   style: ElevatedButton.styleFrom(

@@ -35,6 +35,10 @@ class RatingProvider extends ChangeNotifier {
 
         averageRating = totalRating / snapshot.docs.length;
         reviewCount = snapshot.docs.length;
+        await _firestore
+            .collection('games')
+            .doc(gameId)
+            .update({"rating": averageRating});
       }
     } catch (error) {
       print("Error fetching data: $error");

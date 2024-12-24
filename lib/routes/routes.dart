@@ -1,11 +1,8 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xupstore/views/Developer/dev_profile.dart';
 
 import '../views/dashboard.dart';
-
-
 
 class AppRouter {
   static const String devprofile = '/devprofile';
@@ -14,12 +11,14 @@ class AppRouter {
     switch (settings.name) {
       case dashboard:
         return MaterialPageRoute(
-          builder: (context) => const Dashboard(),
+          builder: (context) => const Dashboard(
+            userid: "",
+          ),
           settings: const RouteSettings(name: dashboard),
         );
       case devprofile:
         return MaterialPageRoute(
-          builder: (context) =>  DevProfile(),
+          builder: (context) => DevProfile(),
           settings: const RouteSettings(name: devprofile),
         );
       default:
@@ -27,4 +26,3 @@ class AppRouter {
     }
   }
 }
-

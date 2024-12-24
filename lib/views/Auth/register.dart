@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
@@ -12,6 +13,8 @@ class Register extends StatelessWidget {
   TextEditingController _emailcontroller = TextEditingController();
   TextEditingController _pwcontroller = TextEditingController();
   TextEditingController _cpwcontroller = TextEditingController();
+  TextEditingController _usernamecontroller = TextEditingController();
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final RoundedLoadingButtonController LoginbtnController =
       RoundedLoadingButtonController();
@@ -77,6 +80,18 @@ class Register extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
+              MyTextField(
+                controller: _usernamecontroller,
+                label: Text(
+                  "Enter Username",
+                  style: GoogleFonts.poppins(),
+                ),
+                icn: Icon(Icons.person),
+                obscuretext: false,
+              ),
+              SizedBox(
+                height: 10,
+              ),
               RoundedLoadingButton(
                 width: 2000,
                 borderRadius: 10,
@@ -87,10 +102,12 @@ class Register extends StatelessWidget {
                   if (_pwcontroller.text == _cpwcontroller.text) {
                     try {
                       _authService.SignUpWithEmailPassword(
-                          _emailcontroller.text, _pwcontroller.text);
+                          _emailcontroller.text,
+                          _pwcontroller.text,
+                          _usernamecontroller.text);
 
-                      _authService.SignInWithEmailPassword(
-                          _emailcontroller.text, _pwcontroller.text);
+                      // _authService.SignInWithEmailPassword(
+                      //     _emailcontroller.text, _pwcontroller.text);
 
                       LoginbtnController.success();
                     } catch (e) {
