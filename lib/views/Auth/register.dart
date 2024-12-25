@@ -29,13 +29,10 @@ class Register extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.games,
-                size: 60,
-                color: Colors.purple,
-              ),
-              const SizedBox(
-                height: 20,
+              Image.asset(
+                "assets/logoa.png",
+                height: 60,
+                width: 120,
               ),
               Text(
                 "Lets create an account for you",

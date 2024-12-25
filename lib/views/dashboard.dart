@@ -166,9 +166,9 @@ class _DashboardState extends State<Dashboard> {
                         child: CircleAvatar(
                             radius: 20,
                             child: ClipOval(
-                              child: Image.asset(
-                                "assets/image.png",
-                                fit: BoxFit.cover,
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.grey.shade700,
                               ),
                             )),
                       ),

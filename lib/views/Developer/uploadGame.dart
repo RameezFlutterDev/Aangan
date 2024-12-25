@@ -149,6 +149,7 @@ class _UploadgameState extends State<Uploadgame> {
         'storagePath': storagePath,
         'isPaid': _isPaid,
         'price': _isPaid ? double.parse(_priceController.text.trim()) : 0.0,
+        'status': "Pending"
       });
 
       if (mounted) {

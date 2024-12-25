@@ -162,7 +162,8 @@ class Login extends StatelessWidget {
                   style: GoogleFonts.poppins(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple, // Google-themed button color
+                  backgroundColor:
+                      Colors.deepOrangeAccent, // Google-themed button color
                 ),
               ),
               const SizedBox(height: 10),
