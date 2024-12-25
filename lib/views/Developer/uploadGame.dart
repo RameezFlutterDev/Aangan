@@ -17,12 +17,12 @@ class Uploadgame extends StatefulWidget {
 
 class _UploadgameState extends State<Uploadgame> {
   final ImagePicker _picker = ImagePicker();
-  List<File> _images = [];
+  final List<File> _images = [];
   File? _apkFile;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  final Uuid uuid = Uuid();
+  final Uuid uuid = const Uuid();
   double _uploadProgress = 0.0;
   bool _isUploading = false;
 
@@ -54,14 +54,14 @@ class _UploadgameState extends State<Uploadgame> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Notice'),
+          title: const Text('Notice'),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -154,7 +154,7 @@ class _UploadgameState extends State<Uploadgame> {
       if (mounted) {
         _showAlertDialog(context, "Game uploaded successfully!");
 
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 2), () {
           if (mounted) {
             Navigator.pop(context);
           }
@@ -190,21 +190,22 @@ class _UploadgameState extends State<Uploadgame> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(color: Color(0xFF262635)),
+        decoration: const BoxDecoration(color: Color(0xFF262635)),
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Stack(
             children: [
               SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.arrow_back, color: Colors.white),
+                          icon:
+                              const Icon(Icons.arrow_back, color: Colors.white),
                           onPressed: () => Navigator.pop(context),
                         ),
                         Text(
@@ -218,16 +219,16 @@ class _UploadgameState extends State<Uploadgame> {
                         Container(width: 10),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _buildTextField("Enter game title", _titleController),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     _buildTextField(
                         "Describe your game", _descriptionController,
                         maxLines: 4),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     _buildFilePickerRow(
                         "APK File", Icons.insert_drive_file, _pickApkFile),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -248,7 +249,7 @@ class _UploadgameState extends State<Uploadgame> {
                     ),
                     if (_isPaid)
                       _buildTextField("Enter price", _priceController),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text(
                       'Upload images',
                       style: GoogleFonts.poppins(
@@ -256,9 +257,9 @@ class _UploadgameState extends State<Uploadgame> {
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     _buildImageGrid(),
-                    SizedBox(height: 200),
+                    const SizedBox(height: 200),
                   ],
                 ),
               ),
@@ -293,7 +294,7 @@ class _UploadgameState extends State<Uploadgame> {
                         },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
-                    padding: EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -330,7 +331,7 @@ class _UploadgameState extends State<Uploadgame> {
           borderSide: BorderSide.none,
         ),
       ),
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     );
   }
 
@@ -339,7 +340,7 @@ class _UploadgameState extends State<Uploadgame> {
     return Row(
       children: [
         Icon(icon, size: 40, color: Colors.white),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -350,12 +351,12 @@ class _UploadgameState extends State<Uploadgame> {
                     color: Colors.white)),
           ],
         ),
-        Spacer(),
+        const Spacer(),
         ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.grey[800],
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -375,7 +376,7 @@ class _UploadgameState extends State<Uploadgame> {
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         for (File image in _images)
           Container(
@@ -392,7 +393,7 @@ class _UploadgameState extends State<Uploadgame> {
               color: Colors.grey[800],
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(Icons.add, color: Colors.white, size: 30),
+            child: const Icon(Icons.add, color: Colors.white, size: 30),
           ),
         ),
       ],
@@ -405,7 +406,7 @@ class _UploadgameState extends State<Uploadgame> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircularProgressIndicator(value: _uploadProgress),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             "Uploading... ${(_uploadProgress * 100).toStringAsFixed(0)}%",
             style: GoogleFonts.poppins(color: Colors.white),

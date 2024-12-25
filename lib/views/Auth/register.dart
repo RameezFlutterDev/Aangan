@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,11 +8,11 @@ import 'package:xupstore/views/Auth/login.dart';
 import '../../widgets/text_fields.dart';
 
 class Register extends StatelessWidget {
-  TextEditingController _emailcontroller = TextEditingController();
-  TextEditingController _pwcontroller = TextEditingController();
-  TextEditingController _cpwcontroller = TextEditingController();
-  TextEditingController _usernamecontroller = TextEditingController();
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _pwcontroller = TextEditingController();
+  final TextEditingController _cpwcontroller = TextEditingController();
+  final TextEditingController _usernamecontroller = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final RoundedLoadingButtonController LoginbtnController =
       RoundedLoadingButtonController();
@@ -31,19 +29,19 @@ class Register extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.games,
                 size: 60,
                 color: Colors.purple,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
                 "Lets create an account for you",
                 style: GoogleFonts.poppins(fontSize: 16),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               MyTextField(
@@ -52,10 +50,10 @@ class Register extends StatelessWidget {
                   "Email",
                   style: GoogleFonts.poppins(),
                 ),
-                icn: Icon(Icons.email_outlined),
+                icn: const Icon(Icons.email_outlined),
                 obscuretext: false,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               MyTextField(
@@ -64,9 +62,9 @@ class Register extends StatelessWidget {
                     "Password",
                     style: GoogleFonts.poppins(),
                   ),
-                  icn: Icon(Icons.password_outlined),
+                  icn: const Icon(Icons.password_outlined),
                   obscuretext: true),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               MyTextField(
@@ -75,9 +73,9 @@ class Register extends StatelessWidget {
                     "Confirm Password",
                     style: GoogleFonts.poppins(),
                   ),
-                  icn: Icon(Icons.check_box_outlined),
+                  icn: const Icon(Icons.check_box_outlined),
                   obscuretext: true),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               MyTextField(
@@ -86,10 +84,10 @@ class Register extends StatelessWidget {
                   "Enter Username",
                   style: GoogleFonts.poppins(),
                 ),
-                icn: Icon(Icons.person),
+                icn: const Icon(Icons.person),
                 obscuretext: false,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               RoundedLoadingButton(
@@ -98,13 +96,11 @@ class Register extends StatelessWidget {
                 controller: LoginbtnController,
                 color: (Colors.grey.shade600),
                 onPressed: () {
-                  final _authService = AuthService();
+                  final authService = AuthService();
                   if (_pwcontroller.text == _cpwcontroller.text) {
                     try {
-                      _authService.SignUpWithEmailPassword(
-                          _emailcontroller.text,
-                          _pwcontroller.text,
-                          _usernamecontroller.text);
+                      authService.SignUpWithEmailPassword(_emailcontroller.text,
+                          _pwcontroller.text, _usernamecontroller.text);
 
                       // _authService.SignInWithEmailPassword(
                       //     _emailcontroller.text, _pwcontroller.text);
@@ -123,7 +119,7 @@ class Register extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) =>
-                          AlertDialog(title: Text("Password dont match")),
+                          const AlertDialog(title: Text("Password dont match")),
                     );
                     LoginbtnController.reset();
                   }
@@ -137,7 +133,7 @@ class Register extends StatelessWidget {
                       letterSpacing: 0.5),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(

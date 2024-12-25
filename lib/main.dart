@@ -4,13 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:xupstore/firebase_options.dart';
 import 'package:xupstore/provider/DownloadPP/search_game_provider.dart';
 import 'package:xupstore/views/Auth/auth_gate.dart';
-import 'package:xupstore/views/Developer/dev_payment.dart';
-import 'package:xupstore/views/Developer/dev_profile.dart';
-import 'package:xupstore/views/Developer/payment_method.dart';
-import 'package:xupstore/views/HelpCenter/help_center_screen.dart';
-import 'package:xupstore/views/dashboard.dart';
-import 'package:xupstore/views/downloadpage.dart';
-import 'package:xupstore/views/Auth/login.dart';
 
 import 'provider/DownloadPP/download_button_provider.dart';
 import 'provider/DownloadPP/game_rating_provider.dart';
@@ -35,7 +28,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (_) => GameProvider()),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: AuthGate(),
       ),

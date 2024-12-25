@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -44,7 +43,7 @@ class AuthService {
     try {
       await _auth.signOut();
     } catch (e) {
-      throw (e);
+      rethrow;
     }
   }
 }

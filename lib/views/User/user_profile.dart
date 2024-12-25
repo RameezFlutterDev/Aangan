@@ -8,7 +8,7 @@ import 'package:xupstore/services/firestore_profilepage_services.dart';
 class UserProfileScreen extends StatefulWidget {
   final String userId; // Pass the userId to identify the user document
 
-  UserProfileScreen({required this.userId});
+  const UserProfileScreen({super.key, required this.userId});
 
   @override
   _UserProfileScreenState createState() => _UserProfileScreenState();
@@ -76,7 +76,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         title: Text('User Profile', style: GoogleFonts.poppins()),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             // Profile Picture
@@ -86,20 +86,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   radius: 50,
                   backgroundImage: _avatarUrl != null
                       ? FileImage(File(_avatarUrl!))
-                      : AssetImage('assets/default_avatar.png')
+                      : const AssetImage('assets/default_avatar.png')
                           as ImageProvider,
                 ),
                 Positioned(
                   bottom: 0,
                   right: 0,
                   child: IconButton(
-                    icon: Icon(Icons.camera_alt, color: Color(0xff6d72ea)),
+                    icon:
+                        const Icon(Icons.camera_alt, color: Color(0xff6d72ea)),
                     onPressed: _pickImage,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Username Display and Edit
             Row(
@@ -114,7 +115,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
-                      icon: Icon(Icons.edit, color: Color(0xff6d72ea)),
+                      icon: const Icon(Icons.edit, color: Color(0xff6d72ea)),
                       onPressed: () {
                         _usernameController.text = _username ?? '';
                         showDialog(
@@ -132,14 +133,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               ),
                               actions: [
                                 TextButton(
-                                  child: Text('Cancel'),
+                                  child: const Text('Cancel'),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
                                 ),
                                 ElevatedButton(
-                                  child: Text('Save'),
                                   onPressed: _saveProfile,
+                                  child: const Text('Save'),
                                 ),
                               ],
                             );
@@ -167,7 +168,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
             // Divider(),
 
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             // Edit Profile Button (Placeholder)
             ElevatedButton(
@@ -177,7 +178,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               child: Text("Edit Profile", style: GoogleFonts.poppins()),
             ),
 
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
 
             // Account Settings
             Text(

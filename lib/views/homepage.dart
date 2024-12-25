@@ -14,10 +14,10 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 1; // Track the selected tab index
-    final PageController _pageController = PageController();
+    int selectedIndex = 1; // Track the selected tab index
+    final PageController pageController = PageController();
 
-    final List<Widget> _pages = [
+    final List<Widget> pages = [
       Dashboard(
         userid: widget.userid,
       ),
@@ -30,26 +30,26 @@ class _HomepageState extends State<Homepage> {
     ];
     return Scaffold(
       bottomNavigationBar: ConvexAppBar(
-        backgroundColor: Color(0xff6d72ea),
+        backgroundColor: const Color(0xff6d72ea),
         height: 50,
-        initialActiveIndex: _selectedIndex,
-        items: [
+        initialActiveIndex: selectedIndex,
+        items: const [
           TabItem(icon: Icons.add),
           TabItem(icon: Icons.home),
           TabItem(icon: Icons.favorite_outline),
         ],
         onTap: (int index) {
           setState(() {
-            _selectedIndex = index;
+            selectedIndex = index;
           });
-          _pageController.jumpToPage(index); // Navigate to the selected page
+          pageController.jumpToPage(index); // Navigate to the selected page
         },
       ),
       body: PageView(
-        controller: _pageController,
+        controller: pageController,
         physics:
-            NeverScrollableScrollPhysics(), // Disable swiping between pages
-        children: _pages,
+            const NeverScrollableScrollPhysics(), // Disable swiping between pages
+        children: pages,
       ),
     );
   }

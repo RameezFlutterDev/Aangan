@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xupstore/views/Developer/dev_profile.dart';
 
@@ -18,7 +17,7 @@ class AppRouter {
         );
       case devprofile:
         return MaterialPageRoute(
-          builder: (context) => DevProfile(),
+          builder: (context) => const DevProfile(),
           settings: const RouteSettings(name: devprofile),
         );
       default:

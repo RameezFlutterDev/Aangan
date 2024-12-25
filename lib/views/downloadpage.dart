@@ -20,7 +20,7 @@ import 'package:xupstore/services/firestore_favourite_games_services.dart';
 import '../provider/DownloadPP/game_rating_provider.dart';
 
 class DownloadPage extends StatefulWidget {
-  DownloadPage({super.key, required this.game, required this.userid});
+  const DownloadPage({super.key, required this.game, required this.userid});
 
   final Map<String, dynamic> game;
   final String userid;
@@ -38,7 +38,7 @@ class _DownloadPageState extends State<DownloadPage> {
   bool isDownloading = false;
   double downloadProgress = 0.0;
   double rated = 0.0;
-  TextEditingController _reviewcontroller = TextEditingController();
+  final TextEditingController _reviewcontroller = TextEditingController();
 
   Future<void> downloadAndInstallAPK(
       BuildContext context, DownloadProvider downloadProvider) async {
@@ -50,7 +50,7 @@ class _DownloadPageState extends State<DownloadPage> {
       // Prompt the user to enable "Install from Unknown Sources"
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
+          content: const Text(
               'Please enable "Install from Unknown Sources" to proceed with installation.'),
           action: SnackBarAction(
             label: 'Enable',
@@ -60,14 +60,14 @@ class _DownloadPageState extends State<DownloadPage> {
               // Recheck the permission after returning
               if (await Permission.requestInstallPackages.isGranted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content:
                         Text('Permission granted. You can now install apps.'),
                   ),
                 );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Permission not granted.')),
+                  const SnackBar(content: Text('Permission not granted.')),
                 );
               }
             },
@@ -116,7 +116,7 @@ class _DownloadPageState extends State<DownloadPage> {
         final result = await OpenFile.open(filePath);
         if (result.type != ResultType.done) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Unable to open the APK file for installation.'),
             ),
           );
@@ -124,14 +124,14 @@ class _DownloadPageState extends State<DownloadPage> {
       } catch (e) {
         downloadProvider.finishDownloading();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Failed to download the APK. Please try again.'),
           ),
         );
       }
     } else if (storageStatus.isPermanentlyDenied) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
               'Storage permission is permanently denied. Please enable it in settings.'),
         ),
@@ -139,7 +139,7 @@ class _DownloadPageState extends State<DownloadPage> {
       openAppSettings();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Storage permission is required to download the APK.'),
         ),
       );
@@ -170,11 +170,11 @@ class _DownloadPageState extends State<DownloadPage> {
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 Row(
                   children: [
                     IconButton(
@@ -185,7 +185,7 @@ class _DownloadPageState extends State<DownloadPage> {
                         size: 24,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Icon(
                       Icons.share,
                       color: Colors.grey.shade500,
@@ -193,7 +193,7 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
                   child: SizedBox(
@@ -205,7 +205,7 @@ class _DownloadPageState extends State<DownloadPage> {
                         widget.game['gameImagesList'][0],
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
-                          return Center(
+                          return const Center(
                             child: Icon(
                               Icons.broken_image,
                               size: 50,
@@ -228,7 +228,7 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -264,7 +264,7 @@ class _DownloadPageState extends State<DownloadPage> {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
 
                         final docData =
@@ -297,7 +297,7 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   widget.game['description'],
                   style: GoogleFonts.poppins(
@@ -307,16 +307,16 @@ class _DownloadPageState extends State<DownloadPage> {
                   ),
                   textAlign: TextAlign.start,
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Consumer<RatingProvider>(
                   builder: (context, ratingProvider, child) {
                     if (ratingProvider.isLoading) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
 
                     return Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.star,
                           color: Color(0xffe0d910),
                           size: 20,
@@ -330,7 +330,7 @@ class _DownloadPageState extends State<DownloadPage> {
                             color: Colors.black,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           "${ratingProvider.reviewCount} reviews",
                           style: GoogleFonts.poppins(
@@ -355,8 +355,9 @@ class _DownloadPageState extends State<DownloadPage> {
                           direction: Axis.horizontal,
                           allowHalfRating: true,
                           itemCount: 5,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                          itemBuilder: (context, _) => Icon(
+                          itemPadding:
+                              const EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => const Icon(
                             Icons.star,
                             color: Color(0xffe0d910),
                           ),
@@ -369,7 +370,7 @@ class _DownloadPageState extends State<DownloadPage> {
                     );
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -381,7 +382,7 @@ class _DownloadPageState extends State<DownloadPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 TextField(
                   controller: _reviewcontroller,
                   decoration: InputDecoration(
@@ -392,17 +393,17 @@ class _DownloadPageState extends State<DownloadPage> {
                           BorderRadius.circular(20), // Rounded corners
                       borderSide: BorderSide.none, // Remove the visible border
                     ),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 16),
                     filled: true,
                     fillColor: Colors.grey[200], // Light background color
                   ),
                   maxLines: null,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize:
                           16), // Optional: adjust font size for readability
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Consumer<RatingProvider>(
@@ -419,15 +420,15 @@ class _DownloadPageState extends State<DownloadPage> {
                           ratingProvider
                               .fetchRatingAndReviewCount(widget.game['gameid']);
                         },
-                        child: Text(
-                          'Submit',
-                          style: GoogleFonts.poppins(color: Colors.white),
-                        ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF6d72ea),
+                          backgroundColor: const Color(0xFF6d72ea),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
+                        ),
+                        child: Text(
+                          'Submit',
+                          style: GoogleFonts.poppins(color: Colors.white),
                         ),
                       );
                     },
@@ -451,13 +452,13 @@ class _DownloadPageState extends State<DownloadPage> {
                       .getReviewsStream(widget.game['gameid']),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                     if (snapshot.hasError) {
                       return Center(child: Text("Error: ${snapshot.error}"));
                     }
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(child: Text("No reviews yet."));
+                      return const Center(child: Text("No reviews yet."));
                     }
 
                     final reviews = snapshot.data!;
@@ -473,8 +474,8 @@ class _DownloadPageState extends State<DownloadPage> {
                         final reviewText = review['reviewText'] ?? '';
 
                         return Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          padding: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -484,7 +485,7 @@ class _DownloadPageState extends State<DownloadPage> {
                                 color: Colors.grey.withOpacity(0.2),
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
@@ -493,12 +494,12 @@ class _DownloadPageState extends State<DownloadPage> {
                             children: [
                               CircleAvatar(
                                 backgroundColor: Colors.grey.shade300,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.person,
                                   color: Colors.white,
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -510,7 +511,7 @@ class _DownloadPageState extends State<DownloadPage> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     RatingBar.builder(
                                       itemSize: 20,
                                       initialRating: rating.toDouble(),
@@ -518,9 +519,9 @@ class _DownloadPageState extends State<DownloadPage> {
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 2.0),
-                                      itemBuilder: (context, _) => Icon(
+                                      itemPadding: const EdgeInsets.symmetric(
+                                          horizontal: 2.0),
+                                      itemBuilder: (context, _) => const Icon(
                                         Icons.star,
                                         color: Color(0xffe0d910),
                                       ),
@@ -530,7 +531,7 @@ class _DownloadPageState extends State<DownloadPage> {
                                       ignoreGestures:
                                           true, // Makes the RatingBar non-interactive
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Text(
                                       reviewText,
                                       style: GoogleFonts.nunito(
@@ -560,11 +561,12 @@ class _DownloadPageState extends State<DownloadPage> {
               builder: (context, downloadProvider, child) {
                 return ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF6d72ea),
+                    backgroundColor: const Color(0xFF6d72ea),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
                   ),
                   onPressed: downloadProvider.isDownloading
                       ? null

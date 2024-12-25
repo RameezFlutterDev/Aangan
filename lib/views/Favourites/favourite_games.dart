@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:xupstore/services/firestore_favourite_games_services.dart';
@@ -15,10 +14,10 @@ class FavouriteGames extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Text(
@@ -26,13 +25,13 @@ class FavouriteGames extends StatelessWidget {
               style: GoogleFonts.nunito(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff262635)),
+                  color: const Color(0xff262635)),
             ),
             StreamBuilder<List<Map<String, dynamic>>>(
               stream:
                   firestoreFavouriteGamesServices.fetchFavoriteGames(userid),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) return CircularProgressIndicator();
+                if (!snapshot.hasData) return const CircularProgressIndicator();
 
                 final games = snapshot.data!;
                 return ListView.builder(
@@ -53,7 +52,7 @@ class FavouriteGames extends StatelessWidget {
                         leading: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 color: Colors.black26,
                                 blurRadius: 10,
@@ -76,12 +75,12 @@ class FavouriteGames extends StatelessWidget {
                         ),
                         subtitle: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Color(0xffe0d910),
                               size: 20,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Text(

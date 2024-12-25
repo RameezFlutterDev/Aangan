@@ -9,6 +9,8 @@ import 'dart:io';
 import '../../consts/forward_buttons.dart';
 
 class DevProfile extends StatefulWidget {
+  const DevProfile({super.key});
+
   @override
   _DevProfileState createState() => _DevProfileState();
 }
@@ -48,7 +50,7 @@ class _DevProfileState extends State<DevProfile> {
           key: _formKey,
           child: Column(
             children: [
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Text(
                 'Developer Profile',
                 style: GoogleFonts.poppins(
@@ -56,32 +58,32 @@ class _DevProfileState extends State<DevProfile> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Avatar (Logo)
               GestureDetector(
                 onTap: _pickLogoImage,
                 child: AvatarGlow(
                   child: Material(
                     elevation: 8.0,
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                     child: CircleAvatar(
                       backgroundColor: Colors.grey[100],
-                      child: Center(
+                      radius: 50.0,
+                      child: const Center(
                         child: Icon(Icons.add),
                       ),
-                      radius: 50.0,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Information Containers
               _buildLabeledTextBox('Name', 'Enter your full name'),
               _buildLabeledTextBox('Store Name', 'Enter your store name'),
               _buildLabeledTextBox('Email', 'Enter your email'),
               _buildLabeledTextBox('NIC', 'Enter your NIC'),
               _buildLabeledTextBox('Contact', 'Enter your contact number'),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // CNIC Upload Box
               GestureDetector(
                 onTap: _pickCnicImage,
@@ -89,8 +91,8 @@ class _DevProfileState extends State<DevProfile> {
                   alignment: Alignment.center,
                   width: 250,
                   height: 150,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  padding: EdgeInsets.all(16),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.grey[800],
                     borderRadius: BorderRadius.circular(8),
@@ -102,9 +104,9 @@ class _DevProfileState extends State<DevProfile> {
                           ? Image.file(_cnicImage!)
                           : Column(
                               children: [
-                                Icon(Icons.image,
+                                const Icon(Icons.image,
                                     size: 50, color: Colors.white),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Text(
                                   'Upload NIC Image',
                                   style: GoogleFonts.poppins(
@@ -117,7 +119,7 @@ class _DevProfileState extends State<DevProfile> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Next Button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -128,14 +130,14 @@ class _DevProfileState extends State<DevProfile> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PaymentDetailsPage(),
+                          builder: (context) => const PaymentDetailsPage(),
                         ),
                       );
                     }
                   },
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -146,7 +148,7 @@ class _DevProfileState extends State<DevProfile> {
   // Helper function to build labeled text boxes
   Widget _buildLabeledTextBox(String label, String placeholder) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -155,7 +157,7 @@ class _DevProfileState extends State<DevProfile> {
             style:
                 GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 15),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           TextFormField(
             decoration: InputDecoration(
               hintText: placeholder,
@@ -165,14 +167,14 @@ class _DevProfileState extends State<DevProfile> {
               fillColor: textboxcolor,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Colors.grey),
+                borderSide: const BorderSide(color: Colors.grey),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Colors.white),
+                borderSide: const BorderSide(color: Colors.white),
               ),
               contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {

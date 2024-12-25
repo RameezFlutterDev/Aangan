@@ -4,6 +4,8 @@ import 'package:xupstore/consts/forward_buttons.dart';
 import '../../consts/themes.dart';
 
 class PaymentAccessScreen extends StatefulWidget {
+  const PaymentAccessScreen({super.key});
+
   @override
   _PaymentAccessScreenState createState() => _PaymentAccessScreenState();
 }
@@ -39,7 +41,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                     style: GoogleFonts.poppins(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
                   // Payment Method Dropdown
                   DropdownButtonFormField<String>(
@@ -48,7 +50,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                       fillColor: textboxcolor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: const BorderSide(color: Colors.grey),
                       ),
                     ),
                     hint: Text(
@@ -73,7 +75,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Amount Input
                   Text(
@@ -81,7 +83,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                     style: GoogleFonts.poppins(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   TextFormField(
                     controller: amountController,
                     decoration: InputDecoration(
@@ -92,7 +94,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                       fillColor: textboxcolor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: const BorderSide(color: Colors.grey),
                       ),
                     ),
                     keyboardType: TextInputType.number,
@@ -103,7 +105,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Card Number Input
                   if (selectedPaymentMethod == 'Card') ...[
@@ -112,7 +114,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                       style: GoogleFonts.poppins(
                           fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     TextFormField(
                       controller: cardNumberController,
                       decoration: InputDecoration(
@@ -123,7 +125,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                         fillColor: textboxcolor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                       ),
                       keyboardType: TextInputType.number,
@@ -134,7 +136,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
                     // Expiry Date Input
                     Text(
@@ -142,7 +144,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                       style: GoogleFonts.poppins(
                           fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     TextFormField(
                       controller: expiryDateController,
                       decoration: InputDecoration(
@@ -153,7 +155,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                         fillColor: textboxcolor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                       ),
                       keyboardType: TextInputType.datetime,
@@ -164,7 +166,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
                     // CVV Input
                     Text(
@@ -172,7 +174,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                       style: GoogleFonts.poppins(
                           fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     TextFormField(
                       controller: cvvController,
                       decoration: InputDecoration(
@@ -183,7 +185,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                         fillColor: textboxcolor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                       ),
                       keyboardType: TextInputType.number,
@@ -194,7 +196,7 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                   ],
 
                   // Submit Button
@@ -208,12 +210,12 @@ class _PaymentAccessScreenState extends State<PaymentAccessScreen> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: Text('Payment Successful'),
-                                content: Text(
+                                title: const Text('Payment Successful'),
+                                content: const Text(
                                     'Thank you for your payment! You now have access to upload your games.'),
                                 actions: [
                                   TextButton(
-                                    child: Text('OK'),
+                                    child: const Text('OK'),
                                     onPressed: () {
                                       Navigator.pop(context);
                                       // Navigate to the game upload screen

@@ -55,9 +55,7 @@ class FirestoreDownloadpageServices {
         .collection('reviews')
         .orderBy('date', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => doc.data() as Map<String, dynamic>)
-            .toList());
+        .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
   }
 
   Stream<Map<String, dynamic>> getAverageRatingAndReviewCount(String gameId) {
@@ -72,7 +70,7 @@ class FirestoreDownloadpageServices {
       }
 
       double totalRating = snapshot.docs.fold(0.0, (sum, doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        final data = doc.data();
         final rating = (data['rating'] ?? 0.0) as double;
         return sum + rating;
       });

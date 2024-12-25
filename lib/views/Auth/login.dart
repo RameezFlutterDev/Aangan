@@ -7,15 +7,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:xupstore/auth/auth_service.dart';
-import 'package:xupstore/views/dashboard.dart';
 import 'package:xupstore/views/Auth/register.dart';
 import 'package:xupstore/views/homepage.dart';
 import 'package:xupstore/widgets/text_fields.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatelessWidget {
-  TextEditingController _emailcontroller = TextEditingController();
-  TextEditingController _pwcontroller = TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _pwcontroller = TextEditingController();
 
   final RoundedLoadingButtonController LoginbtnController =
       RoundedLoadingButtonController();
@@ -63,7 +62,7 @@ class Login extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Google Sign-In Error"),
+          title: const Text("Google Sign-In Error"),
           content: Text(e.toString()),
         ),
       );
@@ -80,37 +79,36 @@ class Login extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.games,
-                size: 60,
-                color: Colors.purple,
+              Image.asset(
+                "assets/logoa.png",
+                height: 60,
+                width: 120,
               ),
-              SizedBox(height: 20),
               Text(
                 "Welcome to Aangan!",
-                style: GoogleFonts.poppins(fontSize: 16),
+                style: GoogleFonts.poppins(fontSize: 12),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               MyTextField(
                 controller: _emailcontroller,
                 label: Text(
                   "Email",
                   style: GoogleFonts.poppins(),
                 ),
-                icn: Icon(Icons.email_outlined),
+                icn: const Icon(Icons.email_outlined),
                 obscuretext: false,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               MyTextField(
                 controller: _pwcontroller,
                 label: Text(
                   "Password",
                   style: GoogleFonts.poppins(),
                 ),
-                icn: Icon(Icons.password_outlined),
+                icn: const Icon(Icons.password_outlined),
                 obscuretext: true,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               RoundedLoadingButton(
                 width: 2000,
                 borderRadius: 10,
@@ -152,10 +150,10 @@ class Login extends StatelessWidget {
                       letterSpacing: 0.5),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ElevatedButton.icon(
                 onPressed: () => _signInWithGoogle(context),
-                icon: Icon(
+                icon: const Icon(
                   FontAwesomeIcons.google,
                   color: Colors.white,
                 ),
@@ -167,7 +165,7 @@ class Login extends StatelessWidget {
                   backgroundColor: Colors.purple, // Google-themed button color
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

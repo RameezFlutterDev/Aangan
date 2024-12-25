@@ -153,9 +153,9 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
                 onPressed: () {
                   // Add your contact support functionality
                 },
-                icon: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Icon(Icons.headset_mic),
+                icon: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.headset_mic),
                 ),
                 label: Padding(
                   padding: const EdgeInsets.all(8.0),

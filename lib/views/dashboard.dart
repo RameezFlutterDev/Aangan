@@ -29,7 +29,7 @@ class _DashboardState extends State<Dashboard> {
   List<Map<String, dynamic>> games = [];
   bool isLoading = true; // Flag to show loading state
   FirestoreDashboardServices firestoreServices = FirestoreDashboardServices();
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _DashboardState extends State<Dashboard> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xff6d72ea),
                 ),
                 child: Text(
@@ -65,43 +65,43 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.gamepad),
-                title: Text('Upload'),
+                leading: const Icon(Icons.gamepad),
+                title: const Text('Upload'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Uploadgame(),
+                        builder: (context) => const Uploadgame(),
                       ));
                 },
               ),
               ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Settings'),
+                leading: const Icon(Icons.settings),
+                title: const Text('Settings'),
                 onTap: () {
                   // Add your onTap logic here
                 },
               ),
               ListTile(
-                leading: Icon(Icons.code),
-                title: Text('Be a Developer '),
+                leading: const Icon(Icons.code),
+                title: const Text('Be a Developer '),
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DevProfile(),
+                        builder: (context) => const DevProfile(),
                       ));
                 },
               ),
               ListTile(
-                leading: Icon(Icons.help),
-                title: Text('Help Center '),
+                leading: const Icon(Icons.help),
+                title: const Text('Help Center '),
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HelpCenterScreen(),
+                        builder: (context) => const HelpCenterScreen(),
                       ));
                 },
               ),
@@ -138,20 +138,20 @@ class _DashboardState extends State<Dashboard> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Row(
                     children: [
                       Builder(
                         builder: (context) => IconButton(
-                          icon: Icon(Icons.segment, size: 28),
+                          icon: const Icon(Icons.segment, size: 28),
                           onPressed: () {
                             Scaffold.of(context).openDrawer();
                           },
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -174,7 +174,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   // Search Bar
@@ -185,7 +185,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     child: TextField(
                       controller: _searchController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Search...',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(16),
@@ -200,20 +200,20 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Game Download Card
                   Container(
                     width: 300,
                     decoration: BoxDecoration(
-                      color: Color(0xffe0d910),
+                      color: const Color(0xffe0d910),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 3),
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
@@ -252,7 +252,7 @@ class _DashboardState extends State<Dashboard> {
                           child: Container(
                             width: 140,
                             height: 350,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
                             child: Image.asset(
@@ -263,7 +263,7 @@ class _DashboardState extends State<Dashboard> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Align(
@@ -273,20 +273,21 @@ class _DashboardState extends State<Dashboard> {
                       style: GoogleFonts.nunito(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff262635)),
+                          color: const Color(0xff262635)),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Container(
+                  SizedBox(
                     height: 120, // Fixed height for the horizontal list
                     child: StreamBuilder<List<Map<String, dynamic>>>(
                       stream: firestoreServices.getAllGamesStream(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
 
                         if (snapshot.hasError) {
@@ -316,7 +317,7 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                   );
                                 },
-                                child: Container(
+                                child: SizedBox(
                                   width: 120, // Fixed width for each item
                                   child: Card(
                                     shape: RoundedRectangleBorder(
@@ -353,7 +354,7 @@ class _DashboardState extends State<Dashboard> {
                                               ),
                                               Row(
                                                 children: [
-                                                  Icon(Icons.star,
+                                                  const Icon(Icons.star,
                                                       size: 11,
                                                       color: Color(0xffe0d910)),
                                                   Text(
@@ -384,7 +385,7 @@ class _DashboardState extends State<Dashboard> {
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Align(
@@ -394,7 +395,7 @@ class _DashboardState extends State<Dashboard> {
                       style: GoogleFonts.nunito(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff262635)),
+                          color: const Color(0xff262635)),
                     ),
                   ),
 
@@ -405,7 +406,8 @@ class _DashboardState extends State<Dashboard> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
 
                         if (snapshot.hasError) {
@@ -418,9 +420,10 @@ class _DashboardState extends State<Dashboard> {
 
                         return GridView.builder(
                           shrinkWrap: true,
-                          physics: BouncingScrollPhysics(), // Disable scrolling
+                          physics:
+                              const BouncingScrollPhysics(), // Disable scrolling
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3, // 2 items per row
                             crossAxisSpacing: 4, // Space between columns
                             mainAxisSpacing: 4, // Space between rows
@@ -476,7 +479,7 @@ class _DashboardState extends State<Dashboard> {
                                           ),
                                           Row(
                                             children: [
-                                              Icon(Icons.star,
+                                              const Icon(Icons.star,
                                                   size: 9,
                                                   color: Color(0xffe0d910)),
                                               Text(
@@ -537,11 +540,11 @@ class _DashboardState extends State<Dashboard> {
               final isLoading = gameProvider.isLoading;
 
               if (isLoading) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
 
               if (games.isEmpty) {
-                return Center(child: Text('No games found.'));
+                return const Center(child: Text('No games found.'));
               }
 
               return Positioned(
@@ -585,7 +588,7 @@ class _DashboardState extends State<Dashboard> {
                                     child: game['gameImagesList'] != null &&
                                             game['gameImagesList'].isNotEmpty
                                         ? Container(
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
                                             clipBehavior: Clip
@@ -596,7 +599,7 @@ class _DashboardState extends State<Dashboard> {
                                                   .cover, // Ensures the image fits within the circle
                                             ),
                                           )
-                                        : Icon(Icons.image_not_supported,
+                                        : const Icon(Icons.image_not_supported,
                                             size:
                                                 30), // Icon size matches the space
                                   ),
@@ -606,7 +609,7 @@ class _DashboardState extends State<Dashboard> {
                             },
                           ),
                         )
-                      : SizedBox.shrink());
+                      : const SizedBox.shrink());
             },
           ),
 

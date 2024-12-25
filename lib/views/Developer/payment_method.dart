@@ -5,6 +5,8 @@ import 'package:xupstore/views/Developer/dev_payment.dart';
 import '../../consts/themes.dart';
 
 class PaymentDetailsPage extends StatefulWidget {
+  const PaymentDetailsPage({super.key});
+
   @override
   _PaymentDetailsPageState createState() => _PaymentDetailsPageState();
 }
@@ -72,7 +74,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 80),
+                  const SizedBox(height: 80),
 
                   // Payment Method Label
                   Text(
@@ -80,7 +82,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                     style: GoogleFonts.poppins(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
                   // Payment Method Dropdown
                   DropdownButtonFormField<String>(
@@ -89,11 +91,11 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                       fillColor: textboxcolor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: const BorderSide(color: Colors.grey),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Colors.white),
                       ),
                     ),
                     hint: Text(
@@ -119,7 +121,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Bank Name Dropdown
                   Text(
@@ -127,18 +129,18 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                     style: GoogleFonts.poppins(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: textboxcolor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: const BorderSide(color: Colors.grey),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Colors.white),
                       ),
                     ),
                     hint: Text(
@@ -164,7 +166,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Account Title
                   Text(
@@ -172,7 +174,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                     style: GoogleFonts.poppins(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   TextFormField(
                     controller: accountTitleController,
                     decoration: InputDecoration(
@@ -183,11 +185,11 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                       fillColor: textboxcolor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: const BorderSide(color: Colors.grey),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Colors.white),
                       ),
                     ),
                     validator: (value) {
@@ -197,7 +199,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Account No
                   Text(
@@ -205,7 +207,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                     style: GoogleFonts.poppins(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   TextFormField(
                     controller: accountNoController,
                     decoration: InputDecoration(
@@ -216,11 +218,11 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                       fillColor: textboxcolor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: const BorderSide(color: Colors.grey),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Colors.white),
                       ),
                     ),
                     validator: (value) {
@@ -230,7 +232,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
 
                   // Next Button
                   Center(
@@ -242,7 +244,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PaymentAccessScreen(),
+                              builder: (context) => const PaymentAccessScreen(),
                             ),
                           );
                         }

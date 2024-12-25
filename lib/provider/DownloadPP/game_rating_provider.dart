@@ -28,7 +28,7 @@ class RatingProvider extends ChangeNotifier {
         reviewCount = 0;
       } else {
         double totalRating = snapshot.docs.fold(0.0, (sum, doc) {
-          final data = doc.data() as Map<String, dynamic>;
+          final data = doc.data();
           final rating = (data['rating'] ?? 0.0) as double;
           return sum + rating;
         });
