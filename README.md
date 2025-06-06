@@ -1,16 +1,36 @@
-# xupstore
+# 🎮 Aangan - Pakistan's First Game Store
 
-A new Flutter project.
+**Aangan** is the first-ever game store of Pakistan, designed to empower both gamers and developers. Available on mobile and web, Aangan allows users to explore, download, and play a variety of games, while giving developers tools to upload and manage their own creations.
 
-## Getting Started
+## 📱 Platforms
 
-This project is a starting point for a Flutter application.
+- **Mobile App** – Built using Flutter, users can download and play games.
+- **Developer Portal (Web)** – Built using Flutter Web, developers can upload and manage games, track revenue, and view analytics.
 
-A few resources to get you started if this is your first Flutter project:
+## 🚀 Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 🔹 For Users (Mobile App)
+- 🕹️ Browse and play games
+- 🔍 Search and filter games by category
+- ⭐ Rate and review games
+- 👤 Login with Google
+- 🔔 Real-time notifications via Firebase Cloud Messaging
+- 📊 Track download stats and popular games
+- 💸 AdMob integration for monetized content
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🔹 For Developers (Web Portal)
+- 📤 Upload games and game assets (via Firebase Storage)
+- 📈 Track game revenue and engagement stats
+- ✔️ Manage game approvals and updates
+- 🔔 Receive approval/denial notifications
+- 👤 Google Sign-In for secure access
+
+## 🔧 Tech Stack
+
+- **Frontend**: Flutter (Mobile + Web)
+- **Backend**: Firebase (Firestore, Authentication, Cloud Functions, FCM, Storage)
+- **Ads**: Google AdMob
+- **Notifications**: Firebase Cloud Messaging
+
+
+
